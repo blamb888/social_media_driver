@@ -5,6 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import os
 from dotenv import load_dotenv
+from get_etsy_url import get_product_title_from_etsy
 
 # Load environment variables from .env file
 load_dotenv()
@@ -18,6 +19,10 @@ options.add_argument("--remote-debugging-port=9222")  # specify a port
 browser = webdriver.Chrome(options=options)
 
 try:
+    # Grab Etsy Information
+    title = get_product_title_from_etsy()
+
+    
     # Navigate to the Buffer login page
     print("Navigating to Buffer login page...")
     browser.get('https://login.buffer.com/login?plan=free&cycle=year')
