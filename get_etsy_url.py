@@ -14,5 +14,5 @@ def get_product_title_from_etsy():
     return title
 
 # Example usage:
-product_title = get_product_title_from_etsy()
-print(f'Product Title: {product_title}')
+# product_title = get_product_title_from_etsy()
+# print(f'Product Title: {product_title}')

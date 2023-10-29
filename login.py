@@ -21,7 +21,7 @@ browser = webdriver.Chrome(options=options)
 try:
     # Grab Etsy Information
     title = get_product_title_from_etsy()
-
+    print(f'Product Title: {title}')
     
     # Navigate to the Buffer login page
     print("Navigating to Buffer login page...")
