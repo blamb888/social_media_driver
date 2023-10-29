@@ -6,6 +6,7 @@ from selenium.webdriver.support import expected_conditions as EC
 import os
 from dotenv import load_dotenv
 from get_etsy_url import get_product_title_from_etsy
+from make_post import create_post
 
 # Load environment variables from .env file
 load_dotenv()
@@ -40,6 +41,7 @@ try:
     # Check for successful login by verifying URL redirection
     if browser.current_url == 'https://publish.buffer.com/calendar/week':
         print("Logged into Buffer successfully!")
+        create_post(browser, product_title)
 
     # Logout
     
