@@ -23,7 +23,7 @@ Social Media Driver is a Python-based automation tool designed to manage and sch
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/yourusername/social_media_driver.git
+    git clone https://github.com/blamb888/social_media_driver.git
     ```
 2. Navigate to the project directory:
     ```bash
