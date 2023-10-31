@@ -11,7 +11,7 @@ def get_product_title():
     title_element = browser.find_element(By.XPATH,'//h1[@data-buy-box-listing-title="true"]')
     product_title = title_element.text
     browser.quit()  # This line closes the browser session
-    return product_title
+    return product_title, etsy_url
 
 # Example usage:
 # product_title = get_product_title_from_etsy()
