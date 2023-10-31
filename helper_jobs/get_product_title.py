@@ -2,7 +2,7 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
 
-def get_product_title_from_etsy():
+def get_product_title():
     etsy_url = input("Please enter the URL for the Etsy product you would like to make a social media post for: ")
     options = Options()
     options.add_argument("--headless")  # This line sets the browser to headless mode
