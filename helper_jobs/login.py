@@ -1,7 +1,11 @@
 from selenium.webdriver.common.by import By
+from dotenv import load_dotenv
 import os
 
+
 def login(browser):
+    # Load environment variables from .env file
+    load_dotenv()
     # Navigate to the Buffer login page
     print("Navigating to Buffer login page...")
     browser.get('https://login.buffer.com/login?plan=free&cycle=year')
