@@ -14,11 +14,11 @@ try:
     login(browser)
     if browser.current_url == 'https://publish.buffer.com/calendar/week':
         print("Logged into Buffer successfully!")
-        create_post(browser, product_title, etsy_url)
+    create_post(browser, product_title, etsy_url)
 
-    logout(browser)
-    if "login" in browser.current_url:
-        print("Logged out of Buffer successfully!")
+    # logout(browser)
+    # if "login" in browser.current_url:
+    #     print("Logged out of Buffer successfully!")
 
 except Exception as e:
     print(f"An error occurred: {e}")
