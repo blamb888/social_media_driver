@@ -24,8 +24,7 @@ try:
     # time.sleep(25)  # waits for 25 seconds
     
     create_post(browser, product_title, etsy_url)
-
-    logout(browser)
+    print("Post created successfully!")
 
 except Exception as e:
     print(f"An error occurred: {e}")
