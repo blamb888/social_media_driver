@@ -12,7 +12,7 @@ def create_post(browser, title, etsy_url):
 
     # Handle popup
     try:
-        popup_close_button = WebDriverWait(browser, 15).until(
+        popup_close_button = WebDriverWait(browser, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[@id='pendo-close-guide-0f60d048']"))  
         )
         popup_close_button.click()
@@ -21,7 +21,7 @@ def create_post(browser, title, etsy_url):
         print("No popup appeared.")
     
     # Click on the 'Create Post' button
-    create_post_button = WebDriverWait(browser, 15).until(
+    create_post_button = WebDriverWait(browser, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//button[.//div[contains(text(), 'Create Post')]]"))
     )
     create_post_button.click()
@@ -31,7 +31,7 @@ def create_post(browser, title, etsy_url):
     
     # Handle new popup
     try:
-        new_popup_close_button = WebDriverWait(browser, 15).until(
+        new_popup_close_button = WebDriverWait(browser, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Close']"))  
         )
         new_popup_close_button.click()
@@ -40,14 +40,14 @@ def create_post(browser, title, etsy_url):
         print("No new popup appeared.")
     
     # Click on the 'Insert' button
-    insert_button = WebDriverWait(browser, 15).until(
+    insert_button = WebDriverWait(browser, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//button[text()='Insert']"))
     )
     insert_button.click()
         
     # Handle new popup
     try:
-        new_popup_close_button = WebDriverWait(browser, 15).until(
+        new_popup_close_button = WebDriverWait(browser, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[@id='pendo-close-guide-33adcb58']"))  
         )
         new_popup_close_button.click()
@@ -73,7 +73,7 @@ def create_post(browser, title, etsy_url):
     except:
         print("'Customize for each network' button not found. Ready to add to queue.")
 
-    add_to_queue_button = WebDriverWait(browser, 15).until(
+    add_to_queue_button = WebDriverWait(browser, 10).until(
         EC.element_to_be_clickable((By.XPATH, "//button/div[text()='Add to Queue']"))
     )
     add_to_queue_button.click()
