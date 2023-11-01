@@ -9,32 +9,33 @@ def add_media(browser, etsy_url):
     post_textbox = WebDriverWait(browser, 30).until(
         EC.element_to_be_clickable((By.XPATH, "//div[@data-testid='composer-text-area']"))
     )
+    from selenium.common.exceptions import TimeoutException
+
     post_textbox.send_keys(f'\n\n{etsy_url}\n')  # append the product URL on a new line
 
-    # Wait for the 'Replace link attachment with image or video' button to appear
-    WebDriverWait(browser, 30).until(
-        EC.presence_of_element_located((By.XPATH, '//button[@data-testid="media-attachment-switch"]'))
-    )
-    
-    # Click the 'Replace link attachment with image or video' button
-    replace_link_button = WebDriverWait(browser, 30).until(
-        EC.element_to_be_clickable((By.XPATH, '//button[@data-testid="media-attachment-switch"]'))
-    )
-    replace_link_button.click()
+    try:
+        # Wait for the 'Replace link attachment with image or video' button to appear
+        replace_link_button = WebDriverWait(browser, 30).until(
+            EC.element_to_be_clickable((By.XPATH, '//button[@data-testid="media-attachment-switch"]'))
+        )
+        replace_link_button.click()
+    except TimeoutException:
+        print("The 'Replace link attachment with image or video' button did not appear or was not clickable.")
+
 
     print("Waiting for image carousel to load...")
     time.sleep(10)  # Adjust the waiting time as necessary
     
     try:
         suggested_media_header = WebDriverWait(browser, 30).until(
-            EC.presence_of_element_located((By.XPATH, "//div[text()='Suggested media (8):']"))
+            EC.presence_of_element_located((By.XPATH, "//div[contains(text(), 'Suggested media')]"))
         )
         if suggested_media_header:
             print("Suggested media found. Selecting first option.")
-        first_option_button = WebDriverWait(browser, 30).until(
-            EC.element_to_be_clickable((By.XPATH, "//div[@class='_suggestionsScrollContainer_13oy6_121']/button[1]"))
-        )
-        first_option_button.click()
+            first_option_button = WebDriverWait(browser, 30).until(
+                EC.element_to_be_clickable((By.XPATH, "//div[contains(@class, '_suggestionsScrollContainer')]/button[1]"))
+            )
+            first_option_button.click()
     except:
         print("No suggested media found. Uploading image...")
         # Select image from Google Drive

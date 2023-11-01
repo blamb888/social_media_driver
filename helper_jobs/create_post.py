@@ -62,22 +62,21 @@ def create_post(browser, title, etsy_url):
     # Add media
     add_media(browser, etsy_url)
         
-    # Click on the 'Customize for each network' button
-    customize_button = WebDriverWait(browser, 30).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[text()='Customize for each network']"))
-    )
-    customize_button.click()
-    print("Clicking customize for each network button...")
-    
-    # Add a wait time
-    time.sleep(25)  # waits for 25 seconds
-        
-    # Check if 'Add to Queue' button is disabled
+    # Either click 'Customize for each network' or 'Add to Queue' depending on availability
+    try:
+        customize_button = WebDriverWait(browser, 5).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[text()='Customize for each network']"))
+        )
+        customize_button.click()
+        print("Clicking customize for each network button...")
+        time.sleep(25)  # waits for 25 seconds
+    except:
+        print("'Customize for each network' button not found. Ready to add to queue.")
+
     add_to_queue_button = WebDriverWait(browser, 30).until(
-        EC.presence_of_element_located((By.XPATH, "//button/div[text()='Add to Queue']"))
+        EC.element_to_be_clickable((By.XPATH, "//button/div[text()='Add to Queue']"))
     )
     add_to_queue_button.click()
     print("Clicking add to queue button...")
-    
-    # Add a wait time
+
     time.sleep(25)  # waits for 25 seconds

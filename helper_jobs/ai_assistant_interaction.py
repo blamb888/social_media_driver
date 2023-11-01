@@ -4,11 +4,11 @@ from selenium.webdriver.support.ui import WebDriverWait
 import time
 
 def interact_with_ai_assistant(browser, title):
-    # Click on the 'Use the AI Assistant' button
+    # Click on the 'Use the AI Assistant' button using JavaScript
     ai_assistant_button = WebDriverWait(browser, 30).until(
         EC.element_to_be_clickable((By.XPATH, "//button[@id='ai-assistant-placeholder-button']"))
     )
-    ai_assistant_button.click()
+    browser.execute_script("arguments[0].click();", ai_assistant_button)
     
     # Enter the product title into the AI Assistant's text box
     ai_assistant_textbox = WebDriverWait(browser, 30).until(
