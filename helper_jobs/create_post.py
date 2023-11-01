@@ -40,7 +40,7 @@ def create_post(browser, title, etsy_url):
         print("No new popup appeared.")
     
     # Click on the 'Insert' button
-    insert_button = WebDriverWait(browser, 10).until(
+    insert_button = WebDriverWait(browser, 20).until(
         EC.element_to_be_clickable((By.XPATH, "//button[text()='Insert']"))
     )
     insert_button.click()
@@ -73,12 +73,12 @@ def create_post(browser, title, etsy_url):
     except:
         print("'Customize for each network' button not found. Ready to add to queue.")
 
-    add_to_queue_button = WebDriverWait(browser, 10).until(
+    add_to_queue_button = WebDriverWait(browser, 20).until(
         EC.element_to_be_clickable((By.XPATH, "//button/div[text()='Add to Queue']"))
     )
     add_to_queue_button.click()
     print("Clicking add to queue button...")
 
-    time.sleep(25)  # waits for 25 seconds
+    time.sleep(35)  # waits for 30 seconds
 
-    logout(browser)
+    # logout(browser)
