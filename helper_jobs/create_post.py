@@ -81,4 +81,4 @@ def create_post(browser, title, etsy_url):
 
     time.sleep(35)  # waits for 30 seconds
 
-    # logout(browser)
+    logout(browser)
