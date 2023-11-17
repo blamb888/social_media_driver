@@ -14,8 +14,17 @@ try:
     print(f'Product Title: {product_title}')
 
     login(browser)
+
+    # Check if the current URL is the desired one
+    if browser.current_url != 'https://publish.buffer.com/calendar/week':
+        # If not, navigate to the desired URL
+        browser.get('https://publish.buffer.com/calendar/week')
+
+    # Check again if you are on the correct page
     if browser.current_url == 'https://publish.buffer.com/calendar/week':
-        print("Logged into Buffer successfully!")
+        print("Logged into Buffer and navigated to the calendar successfully!")
+    else:
+        print("Failed to navigate to the calendar page.")
         
     # disable_pinterest_channel(browser)
     # print("Pinterest channel disabled.")
