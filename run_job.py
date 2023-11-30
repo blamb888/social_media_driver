@@ -11,7 +11,6 @@ from selenium.webdriver.support import expected_conditions as EC
 
 MAX_POSTS = 10
 
-
 def get_scheduled_post_count(browser):
     browser.get('https://publish.buffer.com/calendar/week')
     try:
@@ -30,32 +29,32 @@ browser = initialize_browser()
 try:
     login(browser)
 
+    # Ensure you're on the correct page
     if browser.current_url != 'https://publish.buffer.com/calendar/week':
         browser.get('https://publish.buffer.com/calendar/week')
-
-    if browser.current_url == 'https://publish.buffer.com/calendar/week':
-        print("Logged into Buffer and navigated to the calendar successfully!")
-    else:
-        print("Failed to navigate to the calendar page.")
+    if browser.current_url != 'https://publish.buffer.com/calendar/week':
         raise Exception("Navigation to Buffer calendar page failed")
 
-    current_post_count = get_scheduled_post_count(browser)
-    if current_post_count is None:
-        raise Exception("Could not retrieve post count.")
+    while True:
+        current_post_count = get_scheduled_post_count(browser)
+        if current_post_count is None:
+            raise Exception("Could not retrieve post count.")
 
-    if current_post_count < MAX_POSTS:
-        product_title, etsy_url = get_product_title_local()
-        print(f'Product Title: {product_title}')
-        
-        # Create the post
-        create_post(browser, product_title, etsy_url)
-        print("Post created successfully!")
-    else:
-        print("Maximum number of posts already scheduled.")
+        if current_post_count < MAX_POSTS:
+            product_title, etsy_url = get_product_title_local()
+            print(f'Product Title: {product_title}')
+            create_post(browser, product_title, etsy_url)
+            print("Post created successfully!")
+        else:
+            print("Maximum number of posts already scheduled.")
+            break  # Exit the loop when MAX_POSTS is reached
+
+        time.sleep(5)  # Short delay to prevent overwhelming the server
 
 except Exception as e:
     print(f"An error occurred: {e}")
     print(traceback.format_exc())
 
 finally:
+    logout(browser)  # Logout after all operations are done
     browser.quit()

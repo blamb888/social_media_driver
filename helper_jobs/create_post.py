@@ -79,6 +79,4 @@ def create_post(browser, title, etsy_url):
     add_to_queue_button.click()
     print("Clicking add to queue button...")
 
-    time.sleep(35)  # waits for 30 seconds
-
-    logout(browser)
+    time.sleep(15)
