@@ -39,10 +39,11 @@ def add_media(browser, etsy_url):
                 random_index = random.randint(1, total_images - 1)  # Avoid the last image
                 print(f"Selecting image {random_index}.")
                 image_buttons[random_index - 1].click()  # Lists are 0-indexed, so we subtract 1
+                time.sleep(5)
             else:
                 print("Only one image found. Selecting it.")
                 image_buttons[0].click()
     except:
-        print("No suggested media found. Uploading image...")
+        print("No suggested media found.")
         # Select image from Google Drive
-        upload_image(browser, etsy_url)
+        # upload_image(browser, etsy_url)
