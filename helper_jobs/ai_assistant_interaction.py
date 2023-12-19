@@ -39,4 +39,17 @@ def interact_with_ai_assistant(browser, title):
     )
 
     print("Inserting AI generated post")
+    # XPath to find the button using its class attributes
+    button_xpath = "//button[@type='button' and contains(@class, 'sc-cEEJxU') and contains(@class, 'llKORI')]"
+
+    try:
+        # Wait until the button is clickable
+        insert_button = WebDriverWait(browser, 10).until(
+            EC.element_to_be_clickable((By.XPATH, button_xpath))
+        )
+        insert_button.click()
+        print("Button clicked successfully.")
+    except Exception as e:
+        print(f"Error clicking the button: {e}")
+
     time.sleep(3)  # wait for 3 seconds

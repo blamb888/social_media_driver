@@ -2,7 +2,7 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helper_jobs.ai_assistant_interaction import interact_with_ai_assistant
-from helper_jobs.add_media import add_media
+from helper_jobs.add_media_ig import add_media
 from helper_jobs.logout import logout
 
 import time
@@ -10,7 +10,7 @@ import time
 def create_post(browser, title, etsy_url):
     print("Creating post...")
 
-    # Handle popup
+    # Handle initial popup
     try:
         popup_close_button = WebDriverWait(browser, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[@id='pendo-close-guide-0f60d048']"))  
@@ -26,10 +26,10 @@ def create_post(browser, title, etsy_url):
     )
     create_post_button.click()
     
-    # Click on the 'Use the AI Assistant' button
+    # Use the AI Assistant
     interact_with_ai_assistant(browser, title)
     
-    # Handle new popup
+    # Handle new popup after AI Assistant interaction
     try:
         new_popup_close_button = WebDriverWait(browser, 10).until(
             EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Close']"))  
@@ -39,25 +39,18 @@ def create_post(browser, title, etsy_url):
     except:
         print("No new popup appeared.")
     
-    # Click on the 'Insert' button
-    insert_button = WebDriverWait(browser, 20).until(
-        EC.element_to_be_clickable((By.XPATH, "//button[text()='Insert']"))
-    )
-    insert_button.click()
-        
-    # Handle new popup
-    try:
-        new_popup_close_button = WebDriverWait(browser, 10).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@id='pendo-close-guide-33adcb58']"))  
-        )
-        new_popup_close_button.click()
-        print("New popup closed.")
-    except:
-        print("No new popup appeared.")
-    
-    close_button = browser.find_element(By.XPATH, '//div[@data-testid="composer-sidepanel"]//div')
-    close_button.click()
-    print("AI Assistant closed.")
+    # Toggle off Facebook posts
+    facebook_toggle_button_xpath = "//button[@name='facebook-profile-button' and @aria-checked='true']"
+    facebook_toggle_buttons = browser.find_elements(By.XPATH, facebook_toggle_button_xpath)
+    if facebook_toggle_buttons:
+        try:
+            facebook_toggle_buttons[0].click()
+            print("Facebook posts toggled off.")
+        except Exception as e:
+            print("Error clicking Facebook toggle button, trying JavaScript:", e)
+            browser.execute_script("arguments[0].click();", facebook_toggle_buttons[0])
+    else:
+        print("Facebook posts already toggled off or button not found.")
     
     # Add media
     add_media(browser, etsy_url)
