@@ -3,8 +3,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from helper_jobs.ai_assistant_interaction import interact_with_ai_assistant
 from helper_jobs.add_media_ig import add_media
-from helper_jobs.logout import logout
-
+from helper_jobs.add_tags import add_tags
+from helper_jobs.disable_channels import disable_channels
 import time
 
 def create_post(browser, title, etsy_url):
@@ -26,6 +26,11 @@ def create_post(browser, title, etsy_url):
     )
     create_post_button.click()
     
+    # Disable Instagram and Facebook channels
+    disable_channels(browser, "facebook1", "facebook2", "instagram1")
+        
+    time.sleep(3)
+    
     # Use the AI Assistant
     interact_with_ai_assistant(browser, title)
     
@@ -38,20 +43,10 @@ def create_post(browser, title, etsy_url):
         print("New popup closed.")
     except:
         print("No new popup appeared.")
-    
-    # Toggle off Facebook posts
-    facebook_toggle_button_xpath = "//button[@name='facebook-profile-button' and @aria-checked='true']"
-    facebook_toggle_buttons = browser.find_elements(By.XPATH, facebook_toggle_button_xpath)
-    if facebook_toggle_buttons:
-        try:
-            facebook_toggle_buttons[0].click()
-            print("Facebook posts toggled off.")
-        except Exception as e:
-            print("Error clicking Facebook toggle button, trying JavaScript:", e)
-            browser.execute_script("arguments[0].click();", facebook_toggle_buttons[0])
-    else:
-        print("Facebook posts already toggled off or button not found.")
-    
+        
+    # Add tags
+    add_tags(browser)
+
     # Add media
     add_media(browser, etsy_url)
         

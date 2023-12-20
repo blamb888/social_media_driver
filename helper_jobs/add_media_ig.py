@@ -8,10 +8,21 @@ import random
 
 def add_media(browser, etsy_url):
     print("Adding url...")
+    # Locate and enter the URL in the specified input field
+    try:
+        url_input_field = WebDriverWait(browser, 10).until(
+            EC.visibility_of_element_located((By.CLASS_NAME, "_shopgridFieldInput_wmx5i_45"))
+        )
+        url_input_field.clear()  # Clear any existing text
+        url_input_field.send_keys(etsy_url)
+        print("Product URL entered.")
+    except TimeoutException:
+        print("Error finding the URL input field.")
+
+    # Handle the post textbox
     post_textbox = WebDriverWait(browser, 15).until(
         EC.element_to_be_clickable((By.XPATH, "//div[@data-testid='composer-text-area']"))
     )
-
     post_textbox.send_keys(f'\n\n{etsy_url}\n')  # append the product URL on a new line
 
     try:
@@ -22,7 +33,6 @@ def add_media(browser, etsy_url):
         replace_link_button.click()
     except TimeoutException:
         print("The 'Replace link attachment with image or video' button did not appear or was not clickable.")
-
 
     print("Waiting for image carousel to load...")
     time.sleep(10)  # Adjust the waiting time as necessary

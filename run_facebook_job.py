@@ -9,7 +9,7 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-MAX_POSTS = 10
+MAX_POSTS = 100
 
 def get_scheduled_post_count(browser):
     browser.get('https://publish.buffer.com/calendar/week')
@@ -17,7 +17,7 @@ def get_scheduled_post_count(browser):
         wait = WebDriverWait(browser, 10)  # wait for a maximum of 10 seconds
         
         # XPath modified to target the third element in the sequence
-        post_count_element_xpath = "//*[@id='root']/div/div[1]/div[1]/div[1]/div/ul[2]/div[3]/div/li/span"
+        post_count_element_xpath = "//*[@id='root']/div/div[1]/div[1]/div[1]/div/ul[2]/div[4]/div/li/span"
         post_count_element = wait.until(EC.presence_of_element_located((By.XPATH, post_count_element_xpath)))
         post_count = int(post_count_element.text) if post_count_element.text else 0
         return post_count

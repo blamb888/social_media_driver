@@ -23,7 +23,7 @@ def interact_with_ai_assistant(browser, title):
     generate_button.click()
 
     # Wait for the 'Still working...' text to disappear
-    WebDriverWait(browser, 60).until_not(
+    WebDriverWait(browser, 30).until_not(
         EC.presence_of_element_located((By.XPATH, "//p[contains(text(), 'Still working...')]"))
     )
     
@@ -34,9 +34,19 @@ def interact_with_ai_assistant(browser, title):
     more_casual_button.click()
     
     # Wait for the 'Still working...' text to disappear
-    WebDriverWait(browser, 60).until_not(
+    WebDriverWait(browser, 30).until_not(
         EC.presence_of_element_located((By.XPATH, "//p[contains(text(), 'Unleashing AI')]"))
     )
+    
+    # Click on the 'Shorten' button
+    try:
+        shorten_button = WebDriverWait(browser, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//button[@data-testid='ai-assistant-fine-tuning-shorten-button']"))
+        )
+        shorten_button.click()
+        print("Shorten button clicked.")
+    except Exception as e:
+        print("Error clicking the Shorten button:", e)
 
     print("Inserting AI generated post")
     # XPath to find the button using its class attributes
