@@ -12,7 +12,7 @@ from selenium.webdriver.support import expected_conditions as EC
 MAX_POSTS = 100
 
 def get_scheduled_post_count(browser):
-    browser.get('https://publish.buffer.com/calendar/week')
+    browser.get('https://publish.buffer.com/calendar/month')
     try:
         wait = WebDriverWait(browser, 10)  # wait for a maximum of 10 seconds
         
@@ -31,9 +31,9 @@ try:
     login(browser)
 
     # Ensure you're on the correct page
-    if browser.current_url != 'https://publish.buffer.com/calendar/week':
-        browser.get('https://publish.buffer.com/calendar/week')
-    if browser.current_url != 'https://publish.buffer.com/calendar/week':
+    if browser.current_url != 'https://publish.buffer.com/calendar/month':
+        browser.get('https://publish.buffer.com/calendar/month')
+    if browser.current_url != 'https://publish.buffer.com/calendar/month':
         raise Exception("Navigation to Buffer calendar page failed")
     
 
