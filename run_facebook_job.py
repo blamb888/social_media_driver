@@ -9,7 +9,7 @@ import time
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 
-MAX_POSTS = 100
+MAX_POSTS = 10
 
 def get_scheduled_post_count(browser):
     browser.get('https://publish.buffer.com/calendar/month')

@@ -1,16 +1,21 @@
 import pandas as pd
+import os
+import random
 
-def get_product_title_local(index):
+def get_product_title_local_pinterest():
     # Load the data
-    df = pd.read_csv('catalog/facebook_catalog_final_refined.csv')
+    df = pd.read_csv('catalog/shopify_products_export_1.csv')
 
-    # Ensure the index is within the bounds of the DataFrame
-    if index >= len(df):
-        print("Index out of bounds. Resetting to 0.")
-        index = 0
+    # Remove rows with missing 'Title' or 'Handle'
+    df = df.dropna(subset=['Title', 'Handle'])
 
-    # Get the title and URL from the row at the specified index
-    product_title = df.iloc[index]['title']
-    etsy_url = df.iloc[index]['link']
+    # Randomly select a row
+    random_row = df.sample(n=1).iloc[0]
 
-    return product_title, etsy_url, index + 1
+    # Get the title and URL from the random row
+    product_title = random_row['Title']
+    handle = random_row['Handle']
+    base_url = os.getenv('SHOPIFY_SHOP_URL', 'https://tokyo-creative-collection.com')
+    product_url = f"{base_url}/products/{handle}"
+
+    return product_title, product_url

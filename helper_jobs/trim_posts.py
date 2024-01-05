@@ -1,30 +1,31 @@
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.common.exceptions import TimeoutException
 
 def trim_post_content(browser):
-    post_textarea_xpath = "//div[@data-testid='composer-text-area']"
     try:
-        # Retrieve the text area element
+        post_textarea_xpath = "//div[@data-testid='composer-text-area']"
         post_textarea = WebDriverWait(browser, 10).until(
             EC.visibility_of_element_located((By.XPATH, post_textarea_xpath))
         )
 
-        # Get the current text from the text area and trim if necessary
-        trimmed_text = browser.execute_script("""
-            var textArea = arguments[0];
-            var text = textArea.innerText;
-            if (text.length > 500) {
-                return text.substring(0, 497) + "...";
-            } else {
-                return text;
-            }
-        """, post_textarea)
+        # Click on the text area to focus
+        post_textarea.click()
 
-        # Set the trimmed text back to the text area
-        browser.execute_script("arguments[0].innerText = arguments[1];", post_textarea, trimmed_text)
-        print("Post content checked and trimmed if necessary.")
+        # Get the current text from the text area
+        post_text = post_textarea.text
+
+        # Trim the text if it exceeds 500 characters
+        if len(post_text) > 500:
+            trimmed_text = post_text[:497] + "..."
+            # Select all text (Ctrl+A) and replace it with the trimmed text
+            post_textarea.send_keys(Keys.CONTROL + "a")
+            post_textarea.send_keys(trimmed_text)
+            print("Post content trimmed to 500 characters.")
+        else:
+            print("Post content is within the character limit.")
 
     except TimeoutException:
         print("Timeout while trying to access the post text area.")

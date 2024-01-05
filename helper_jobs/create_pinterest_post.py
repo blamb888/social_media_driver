@@ -1,4 +1,5 @@
 from helper_jobs.disable_channels import disable_channels
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
@@ -8,7 +9,7 @@ from helper_jobs.trim_posts import trim_post_content
 from selenium.common.exceptions import TimeoutException
 import time
 
-def create_post(browser, title, etsy_url):
+def create_post(browser, product_title, etsy_url):
     print("Creating Pinterest post...")
 
     # Handle initial popup
@@ -57,6 +58,9 @@ def create_post(browser, title, etsy_url):
 
     # Insert Post, Add URL, Pick Picture
     add_media(browser, etsy_url)
+    
+    # wait for a moment before proceeding
+    time.sleep(5)
 
     # Delete URL from Post Area
     try:
@@ -64,6 +68,8 @@ def create_post(browser, title, etsy_url):
         post_textarea = WebDriverWait(browser, 10).until(
             EC.visibility_of_element_located((By.XPATH, post_textarea_xpath))
         )
+        # Click in the text area to ensure focus
+        post_textarea.click()
         # Clearing content of a contenteditable div
         browser.execute_script("arguments[0].innerText = '';", post_textarea)
         print("URL cleared from post area.")
@@ -77,13 +83,16 @@ def create_post(browser, title, etsy_url):
         
     # Use the AI Assistant and click 'Shorten'
     try:
-        interact_with_ai_assistant(browser, title)
+        interact_with_ai_assistant(browser, product_title)
         print("AI Assistant interaction successful.")
     except TimeoutException as e:
         print("Timeout while trying to interact with AI Assistant. Check if the AI Assistant button is visible and clickable.")
         print("Error:", e)
     except Exception as e:
         print("Error interacting with AI Assistant:", e)
+        
+    # Wait for a moment before proceeding
+    time.sleep(5)
 
     # Trimming post content if necessary
     trim_post_content(browser)
@@ -107,7 +116,7 @@ def create_post(browser, title, etsy_url):
             EC.visibility_of_element_located((By.XPATH, title_input_xpath))
         )
         title_input_field.clear()
-        title_input_field.send_keys(title)
+        title_input_field.send_keys(product_title)
         print("Title added to pin title field.")
     except Exception as e:
         print("Error adding title to pin title field:", e)
